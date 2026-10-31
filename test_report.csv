@@ -1,0 +1,76 @@
+checks,input,expected,actual,result
+S1 happy-path fetch parses 14 roles,14 <p> roles,14,14,PASS
+S2 network outage -> None,ConnectionError,None,None,PASS
+S3 HTTP 500 -> None,HTTPError,None,None,PASS
+S4 timeout -> None,Timeout,None,None,PASS
+S5 DOM restructuring (<li>),14 <li> roles,14,14,PASS
+S6 partial taxonomy -> None,3 roles,None,None,PASS
+S7 \ufffd normalised in fetched role,Writing \ufffd review & editing,True,True,PASS
+S8 'Resources' kept,Resources,True,True,PASS
+S8 'About' dropped,About,False,False,PASS
+S9 valid docx -> authors found,merged_01.docx,True,True,PASS
+S9 valid docx -> section found,merged_01.docx,True,True,PASS
+S10 corrupted docx -> empty,merged_12.docx,[] | [],[] | [],PASS
+S13 missing file -> empty,NOPE.docx,[] | [],[] | [],PASS
+S14 blank docx -> no section,blank.docx,,,PASS
+S17 'Author Contributions' heading,Author Contributions,True,True,PASS
+S18 '...Statement' variant,Author Contributions Statement,True,True,PASS
+S19 'CRediT Taxonomy' header,CRediT Taxonomy,True,True,PASS
+S20 casing 'AUTHOR CONTRIBUTIONS',AUTHOR CONTRIBUTIONS,True,True,PASS
+S21 no section -> empty,merged_03.docx,,,PASS
+S22 empty section -> empty,merged_08.docx,,,PASS
+S23 citation rejected as heading,[10] Smith A. Author Contributions: a practical guide. J Pub Ethics. 2019;4:1-9.,False,False,PASS
+S25 'Acknowledgements' is next-section,Acknowledgements,True,True,PASS
+S25 prose containing 'funding' is NOT next-section,"The funding body had no role in the design of the study, and a colleague wrote the original protocol before the project began.",False,False,PASS
+S27 dotted initials preserved,J.D.,J.D.,J.D.,PASS
+S29 honorific stripped,Dr. Jane Doe,Jane Doe,Jane Doe,PASS
+S29 'Prof.' stripped,Prof. Anil Bose,Anil Bose,Anil Bose,PASS
+S30 superscript affiliation stripped,Anil Bose2†,Anil Bose,Anil Bose,PASS
+S31 \ufffd stripped from name,Anil Bose2�,Anil Bose,Anil Bose,PASS
+S34 trailing dot kept on initials,A.B.,A.B.,A.B.,PASS
+S35 exact match,Conceptualization,Conceptualization,Conceptualization,PASS
+S36 all-caps,FORMAL ANALYSIS,Formal analysis,Formal analysis,PASS
+S36 lowercase,data curation,Data curation,Data curation,PASS
+S37 ASCII hyphen,Writing - Original Draft,Writing – original draft,Writing – original draft,PASS
+S37 en-dash,Writing – original draft,Writing – original draft,Writing – original draft,PASS
+S38 \ufffd dash,Writing � original draft,Writing – original draft,Writing – original draft,PASS
+S39 qualifier '- lead' stripped,Conceptualization – lead,Conceptualization,Conceptualization,PASS
+S39 qualifier '- supporting' stripped,Writing – original draft – supporting,Writing – original draft,Writing – original draft,PASS
+S40 parenthetical roles,Developed the analysis code (Software) and checked results (Validation),Software | Validation,Software | Validation,PASS
+S41 'designed the study',designed the study,Conceptualization,Conceptualization,PASS
+S41 'acquired funding',acquired funding,Funding acquisition,Funding acquisition,PASS
+S41 'provided resources',provided resources,Resources,Resources,PASS
+S41 'supervised the project',supervised the project,Supervision,Supervision,PASS
+S42 'wrote and edited the paper' -> both,wrote and edited the paper,Writing – original draft | Writing – review & editing,Writing – original draft | Writing – review & editing,PASS
+S42 conjunction 'acquired funding and administered the project',acquired funding and administered the project,Funding acquisition | Project administration,Funding acquisition | Project administration,PASS
+S42 conjunction 'designed the study and analyzed the data',designed the study and analyzed the data,Conceptualization | Formal analysis,Conceptualization | Formal analysis,PASS
+S43 unmappable -> INVALID,made the tea,INVALID,INVALID,PASS
+S33 compound authors resolved,AB and CD ...,Anil Bose | Carla Diaz | Erin Fox,Anil Bose | Carla Diaz | Erin Fox,PASS
+S32 all-authors-equal covers every author,All authors ...,Anil Bose | Jane Doe,Anil Bose | Jane Doe,PASS
+"Structured 'Name: a, b' splits roles","Jane Doe: Conceptualization, Methodology.",Conceptualization | Methodology,Conceptualization | Methodology,PASS
+Pipeline row count merged_01.docx,merged_01.docx,4,4,PASS
+Pipeline row count merged_02.docx,merged_02.docx,5,5,PASS
+Pipeline row count merged_03.docx,merged_03.docx,0,0,PASS
+Pipeline row count merged_04.docx,merged_04.docx,5,5,PASS
+Pipeline row count merged_05.docx,merged_05.docx,4,4,PASS
+Pipeline row count merged_06.docx,merged_06.docx,3,3,PASS
+Pipeline row count merged_07.docx,merged_07.docx,5,5,PASS
+Pipeline row count merged_08.docx,merged_08.docx,0,0,PASS
+Pipeline row count merged_09.docx,merged_09.docx,0,0,PASS
+Pipeline row count merged_10.docx,merged_10.docx,4,4,PASS
+Pipeline row count merged_11.docx,merged_11.docx,0,0,PASS
+Pipeline row count merged_12.docx,merged_12.docx,0,0,PASS
+Pipeline row count merged_13.docx,merged_13.docx,0,0,PASS
+Pipeline row count merged_14.docx,merged_14.docx,2,2,PASS
+Pipeline row count merged_15.docx,merged_15.docx,3,3,PASS
+Pipeline row count merged_16.docx,merged_16.docx,3,3,PASS
+Pipeline row count merged_17.docx,merged_17.docx,6,6,PASS
+Pipeline row count merged_18.docx,merged_18.docx,2,2,PASS
+Pipeline row count merged_19.docx,merged_19.docx,4,4,PASS
+Pipeline row count merged_20.docx,merged_20.docx,7,7,PASS
+S44 one row per author-role (Raj Patel x3),merged_02 Raj Patel,3,3,PASS
+S45 no duplicate rows,all rows,57,57,PASS
+S49 roles are canonical or INVALID,all rows,,,PASS
+S46 comma field is quoted,"author='Doe, Jane'","x.docx,""Doe, Jane"",Conceptualization","x.docx,""Doe, Jane"",Conceptualization",PASS
+S47 output dir auto-created,C:\Users\sifat\AppData\Local\Temp\credit_nested_38900\deep\out.csv,True,True,PASS
+S50 deterministic sorted order,row file order,merged_01.docx | merged_01.docx | merged_01.docx | merged_01.docx | merged_02.docx | merged_02.docx | merged_02.docx | merged_02.docx | merged_02.docx | merged_04.docx | merged_04.docx | merged_04.docx | merged_04.docx | merged_04.docx | merged_05.docx | merged_05.docx | merged_05.docx | merged_05.docx | merged_06.docx | merged_06.docx | merged_06.docx | merged_07.docx | merged_07.docx | merged_07.docx | merged_07.docx | merged_07.docx | merged_10.docx | merged_10.docx | merged_10.docx | merged_10.docx | merged_14.docx | merged_14.docx | merged_15.docx | merged_15.docx | merged_15.docx | merged_16.docx | merged_16.docx | merged_16.docx | merged_17.docx | merged_17.docx | merged_17.docx | merged_17.docx | merged_17.docx | merged_17.docx | merged_18.docx | merged_18.docx | merged_19.docx | merged_19.docx | merged_19.docx | merged_19.docx | merged_20.docx | merged_20.docx | merged_20.docx | merged_20.docx | merged_20.docx | merged_20.docx | merged_20.docx,merged_01.docx | merged_01.docx | merged_01.docx | merged_01.docx | merged_02.docx | merged_02.docx | merged_02.docx | merged_02.docx | merged_02.docx | merged_04.docx | merged_04.docx | merged_04.docx | merged_04.docx | merged_04.docx | merged_05.docx | merged_05.docx | merged_05.docx | merged_05.docx | merged_06.docx | merged_06.docx | merged_06.docx | merged_07.docx | merged_07.docx | merged_07.docx | merged_07.docx | merged_07.docx | merged_10.docx | merged_10.docx | merged_10.docx | merged_10.docx | merged_14.docx | merged_14.docx | merged_15.docx | merged_15.docx | merged_15.docx | merged_16.docx | merged_16.docx | merged_16.docx | merged_17.docx | merged_17.docx | merged_17.docx | merged_17.docx | merged_17.docx | merged_17.docx | merged_18.docx | merged_18.docx | merged_19.docx | merged_19.docx | merged_19.docx | merged_19.docx | merged_20.docx | merged_20.docx | merged_20.docx | merged_20.docx | merged_20.docx | merged_20.docx | merged_20.docx,PASS
