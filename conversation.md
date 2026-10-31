@@ -5064,3 +5064,1585 @@ git ✅, WSL ✅ (so I can actually run `run.sh` this time), transcript tool loa
 
 > 🔧 *Tool call(s): mcp__ccd_session_mgmt__export_transcript*
 
+### 🤖 Claude
+
+WSL turned out to be a stub (no distro actually installed), so `run.sh` still can't be executed here — I'll report that honestly. The transcript exported successfully. Let me copy it into the repo, check git identity, and set up `.gitignore`.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Write*
+
+### 🤖 Claude
+
+Transcript copied in; no git identity set, so I'll configure a **local** (repo-only) identity to avoid touching your global config. Let me init, stage, and show what will be committed before committing:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+Staging is correct — all source, tests, docs, samples, `output.csv`, `test_report.csv`, and the transcript are included; `__pycache__` and the Word lock file are excluded. 
+
+The CRLF warnings matter for `run.sh` (it must stay LF on Ubuntu). I'll add a `.gitattributes` to force that explicitly, then commit:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Write*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+Committed (`044ec72`), and `run.sh` is stored as **pure LF** in the git blob (the CRLF search came back empty), so it'll run correctly when graders check it out on Ubuntu.
+
+Let me do a final confirmation that the tree is clean:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__wrap_up*
+
+### 🤖 Claude
+
+Done — two of three fully, one blocked by the environment:
+
+## ✅ git init + commit
+- Repo initialized at [credit-parser](credit-parser), initial commit **`044ec72`**, working tree **clean**, **39 files** tracked.
+- Used a **repo-local** identity (SHAIK SIFAT AHMED / your email) — your global git config was left untouched.
+- Added `.gitignore` (excludes `__pycache__`, Word lock files) and `.gitattributes` that **forces `run.sh` to LF** — verified the committed blob is pure LF, so it'll work on the graders' Ubuntu.
+
+## ✅ AI transcript exported into the repo
+- Exported this session and committed it as `AI_conversation_transcript.zip` (~1 MB). (Your folder also already had `ANTIGRAVITY_CONVERSATION.md`, which I included too.)
+
+## ❌ run.sh execution — still couldn't
+- `wsl.exe` is present but **no Linux distribution is actually installed** (`The Windows Subsystem for Linux is not installed`), so there's no real bash/Ubuntu here to run it in. `run.sh` remains **reviewed + LF-verified but unexecuted**.
+- To fully close this before submitting, run it once on a real Ubuntu (or `wsl --install` then a distro):
+```bash
+./run.sh sample_manuscripts output.csv
+```
+The Python pipeline itself is proven working on Windows Python 3.12 — only the bash wrapper + `pip install` line are unexercised.
+
+**One honest note:** the commit includes a repo-local author identity I set using your account email for attribution. If you'd rather it be different, tell me and I can amend the commit.
+
+Everything's committed locally. Do you want me to set up a remote (e.g. GitHub) and push, or is the local repo enough for your submission?
+
+### 👤 User
+
+Set up remote push
+
+### 🤖 Claude
+
+Pushing sends everything — including your exported transcript and your email in the commit — to an external host, so let me check what's available and confirm a couple of things first.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+I hit a hard blocker: there's **no `gh` CLI and no GitHub auth on this machine**, and no remote configured. That means I can't create a GitHub repo or authenticate a push myself — and I won't handle your GitHub password/token directly (entering credentials is off-limits). So the remote has to come from you.
+
+Here's the realistic path:
+
+1. **You create an empty repo** on GitHub (recommended: **Private** — see why below), with **no** README/.gitignore (so it's empty and won't conflict).
+2. **Paste me the URL.** I'll then run:
+   ```bash
+   git remote add origin <your-repo-url>
+   git branch -M main
+   git push -u origin main
+   ```
+3. The push will succeed non-interactively **only if** you have an SSH key set up (use the `git@github.com:...` URL) or a credential helper already storing a token. If it prompts for credentials, this non-interactive shell can't answer — you'd run that `git push` yourself in your own terminal (I'll hand you the exact commands).
+
+**Two privacy flags before anything leaves this machine:**
+- The repo currently includes `AI_conversation_transcript.zip` (your **entire** conversation) and your **email in the commit author**. If this repo is ever public, both are exposed. I strongly recommend **Private**.
+- I can **drop the transcript from the repo before pushing** if you'd rather keep it out of the remote (it'd still be in the submission folder locally). Just say so.
+
+How do you want to proceed?
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__wrap_up*
+
+### 🤖 Claude
+
+I can't finish the push on my own here — no `gh` CLI, no GitHub auth, and no remote set up — and I won't handle your GitHub credentials directly. So I need an empty repo URL from you (Private strongly recommended, since the repo currently holds your full transcript zip and your email in the commit author).
+
+Once you paste the URL, I'll add `origin` and push. If your machine has an SSH key or stored token it'll go through from here; if it prompts for credentials, I'll hand you the exact commands to run in your own terminal. Or, if you'd rather I remove `AI_conversation_transcript.zip` from the repo before it goes remote, say "drop transcript first" and I'll amend the commit then push.
+
+Your call — paste a repo URL, keep it local, or drop the transcript first.
+
+### 👤 User
+
+i should be pushing in public, lets first figure to solve this issue.
+
+### 🤖 Claude
+
+Good — let's actually solve the auth blocker rather than hand it back to you. Let me diagnose what credential path this machine already has (SSH key, credential manager, etc.), since that determines whether a push can run from here at all.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+That's the answer — this machine already has **Git Credential Manager (GCM)** installed and set as the credential helper:
+- `C:\Users\sifat\AppData\Local\Programs\Git\ucrt64\bin\git-credential-manager.exe`
+
+So we don't need `gh` or SSH keys at all. GCM handles GitHub auth by popping its own **browser sign-in window** on the first push. That's the mechanism that unblocks us.
+
+## The plan
+
+**Step 1 — you create the empty public repo** (I can't create it without auth):
+- Go to https://github.com/new
+- Name it (e.g. `credit-parser`), set **Public**
+- **Do not** add a README, `.gitignore`, or license (keep it empty so it doesn't conflict)
+- Create, then copy the **HTTPS** URL (`https://github.com/<you>/credit-parser.git`)
+
+**Step 2 — paste that URL here.** I'll then run:
+```bash
+git remote add origin <your-url>
+git branch -M main
+git push -u origin main
+```
+On that push, **GCM will open a GitHub sign-in window** — you approve it once, and it caches the token. If the popup can't surface through my shell, I'll hand you that exact `git push` to run in your own terminal (GCM will prompt there for sure).
+
+## One thing to decide before it goes public
+
+Your commit author is your real email (`sifatahmed2523@gmail.com`). On a **public** repo that's permanently visible/harvestable. I can rewrite the commit to use a GitHub **noreply** address instead (`<username>@users.noreply.github.com`) so your identity still shows but your real inbox doesn't. The transcript zip will also be public — that's normally fine since it's a required submission deliverable, but flagging it.
+
+So: **paste the new repo's HTTPS URL**, and tell me whether to keep your real email or switch to a noreply (give me your GitHub username if you want the noreply).
+
+### 👤 User
+
+check again and do as per this deliverable format only.
+
+### 👤 User
+
+[Image: source: C:\Users\sifat\AppData\Local\Temp\claude\C--TNQ\539f9817-c5a6-42a0-a08f-97f0acb4120f\images\1.jpg]
+[Image: source: C:\Users\sifat\AppData\Local\Temp\claude\C--TNQ\539f9817-c5a6-42a0-a08f-97f0acb4120f\images\2.jpg]
+
+### 🤖 Claude
+
+This is the real, official problem statement — let me verify our build against *this* (not the handover's version) point by point. First, the current committed file list:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+I've read the official spec carefully. Here's our repo checked against **this** deliverable format (both images), requirement by requirement:
+
+## Compliance with the official deliverable format
+
+| Required (per spec) | In repo | Status |
+|---|---|---|
+| Code (Python) | `main.py`, `src/` | ✅ |
+| Automated tests | `tests/test_credit.py` | ✅ |
+| README saying how to run tests | `README.md` (has "Running the tests") | ✅ |
+| Exported **Claude** chat | `AI_conversation_transcript.zip` | ✅ |
+| `run.sh` at **top level**, `./run.sh input_folder output.csv`, installs libs, Ubuntu/Py3.12 | `run.sh` (top level, LF, self-installing) | ✅ |
+| `test_report.csv` at **top level**, cols `checks,input,expected,actual,result` | `test_report.csv` | ✅ |
+| Output CSV `file,author,credit_role`, one row per author-role pair, 14 roles or `INVALID` | matches; `output.csv` demonstrates | ✅ |
+| Dynamic fetch from credit.niso.org (no hardcoding) | `fetcher.py` | ✅ |
+
+**Every required deliverable is present and conforms.** The spec's own example even works now — `"J.D. designed the study and wrote the manuscript"` (merged_06) correctly yields Conceptualization + Writing – original draft after our fixes.
+
+## The one real mismatch: extra files that aren't deliverables
+
+Your repo also tracks files the spec does **not** ask for:
+
+| File | Issue |
+|---|---|
+| `ANTIGRAVITY_CONVERSATION.md` | **Not a Claude chat.** The spec wants your *Claude* chat (which we have). This is a different tool's transcript — and the rules say "using Claude throughout," so this is worth removing. |
+| `HACKATHON_HANDOVER.md` | Internal planning doc — not a deliverable. |
+| `PROJECT_CONTEXT.md` | Internal planning doc — not a deliverable. |
+
+Keep (support/submission, harmless): `output.csv`, `scenario_list_CS23B1035.docx`, `sample_manuscripts/`, `.gitignore`, `.gitattributes`.
+
+To match "deliverable format only," I'd **remove those three** and re-commit (nothing's been pushed yet, so I'll amend the initial commit — clean history). That leaves exactly: code, tests, README, Claude chat, `run.sh`, `test_report.csv`, plus the sample manuscripts and sample output.
+
+Want me to trim those three non-deliverable files? Then we continue the public push (I still need the empty repo's HTTPS URL).
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__wrap_up*
+
+### 🤖 Claude
+
+Bottom line: **we're fully compliant with the official spec** — all six required deliverables are present and in the right format, and the output/CSV rules match exactly. The only gap is three *extra* files that aren't part of the deliverable format, the most notable being `ANTIGRAVITY_CONVERSATION.md` (a non-Claude chat, while the spec wants your Claude chat — which we have separately).
+
+Tell me **"trim the 3 files"** and I'll `git rm` them and amend the initial commit (clean, since nothing's pushed yet), or **"keep everything"** to leave them.
+
+Either way, the public push is still waiting on one thing from you: **the HTTPS URL of the empty public repo** (create it at https://github.com/new, no README/.gitignore). Once you paste it, I'll wire up `origin` and push — Git Credential Manager will pop a GitHub sign-in for you to approve. And let me know if you want your commit email switched to a GitHub noreply before it goes public.
+
+### 👤 User
+
+now create a conversation.md file where you merge antigravity conversation and claude into one . and name it.
+
+and then refer to the points 1- from the given question and push accordingly into this repo attached.
+
+https://github.com/sifat-786/credit-parser
+
+### 🤖 Claude
+
+On it. First let me look at what's inside the Claude transcript export so I can merge it properly with the Antigravity conversation.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+The Claude chat is a 2.26MB JSONL transcript — I'll parse it into readable Markdown. Let me first inspect its structure and the Antigravity file.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Write*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Read*
+
+### 🤖 Claude
+
+Both formats are clear now: Antigravity is already clean Markdown; the Claude side is JSONL (419 lines, ~12 real human turns + assistant replies). I'll parse the Claude JSONL into readable Markdown (verbatim user + assistant text, tool calls noted compactly, bulky tool outputs/system-reminders omitted) and merge after the Antigravity transcript.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Write*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+`conversation.md` built — 200KB, Part 1 (Antigravity) + Part 2 (Claude: 7 human turns, full assistant replies, tool calls noted). The `â€"` in the preview is just PowerShell's console misreading UTF-8; the file is correct UTF-8.
+
+Now I'll consolidate: remove the two now-redundant chat files (`ANTIGRAVITY_CONVERSATION.md` and the zip — both merged into `conversation.md`) and stage the result. I'll **keep** `HACKATHON_HANDOVER.md`/`PROJECT_CONTEXT.md` for now since you didn't ask to remove them this turn.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+Git recorded it as a rename (Antigravity → conversation.md) plus the zip deletion. Now I'll amend the commit (keeps history clean, no stray 1MB binary), wire up the remote, and check whether the GitHub repo is empty before pushing:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+The remote repo is **empty** (no refs), so a clean push will work with no conflicts. Renaming the branch to `main` and pushing now — **watch for a GitHub sign-in window from Git Credential Manager and approve it**:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+The push can't complete from my sandbox — git's interactive prompts are disabled here, so Git Credential Manager never gets to show its sign-in window. Everything *else* is done and staged for you, though: the commit is made, `origin` is set, and the branch is `main`. The only step left is the authenticated push, which must run in **your own interactive terminal** (where GCM's GitHub popup will appear).
+
+Let me confirm the repo is fully ready for that one command:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+Everything is ready — the repo is committed (`f3bd149`), on `main`, remote wired to your repo, working tree clean, and `conversation.md` (merged Antigravity + Claude) is in place with the old chat files consolidated away.
+
+The **only** step I can't do from here is the authenticated push (my sandbox blocks the interactive GitHub sign-in). Run this one command in your **own terminal** — Git Credential Manager will pop a GitHub sign-in to approve, and it'll push:
+
+```bash
+cd C:\TNQ\credit-parser; git push -u origin main
+```
+
+That publishes everything to https://github.com/sifat-786/credit-parser.
+
+## What's in the push (per points 1–5)
+
+| Point | Deliverable | File |
+|---|---|---|
+| 1 | Code + automated tests | `main.py`, `src/`, `tests/test_credit.py` |
+| 2 | README (how to run tests) + exported chat | `README.md`, `conversation.md` |
+| 3 | `run.sh` at top level | `run.sh` (LF, self-installing) |
+| 4 | Output CSV `file,author,credit_role` / `INVALID` | `output.csv` (sample, 57 rows) |
+| 5 | `test_report.csv` (`checks,input,expected,actual,result`) | `test_report.csv` |
+
+Plus `scenario_list_CS23B1035.docx` (the first-30-min scenario list) and `sample_manuscripts/`.
+
+## Two notes before you push
+
+- **Your real email** (`sifatahmed2523@gmail.com`) is the commit author and will be **public**. Say the word if you'd like me to rewrite it to a GitHub noreply (`sifat-786@users.noreply.github.com`) first.
+- `HACKATHON_HANDOVER.md` and `PROJECT_CONTEXT.md` are **still included** (I only consolidated the chat files, as you asked). They're internal planning notes, not required deliverables.
+
+Want me to trim those two planning docs and/or switch the commit email to noreply before you run the push?
+
+### 👤 User
+
+also, read me file is not yet updated to the finalised version.
+
+### 🤖 Claude
+
+Let me read the current README and update it to match the finalized state (new `conversation.md`, current file layout, corrected counts).
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Read*
+
+### 🤖 Claude
+
+The README is solid but its **Project structure** is stale — it predates `conversation.md` and doesn't reflect the finalized repo or map to the spec's deliverables. Let me update that section and add an explicit deliverables mapping (points 1–5):
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Edit*
+
+### 🤖 Claude
+
+Good catch to finalize — and I noticed the output example itself is now stale: it shows `merged_06.docx,Anil Bose,INVALID`, but after the keyword fix that row is now `Investigation`. Let me correct it to a row that's still `INVALID` (merged_18 "made the tea"):
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Edit*
+
+### 🤖 Claude
+
+Now amend the commit to include the finalized README, and verify the repo is clean and ready:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+The `--amend` was blocked as a destructive git action (it rewrites history). No problem — I'll make a **normal new commit** instead, which isn't destructive:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+README is finalized and committed (`8a77537`); the working tree is clean. The repo now has 2 commits, both ready to push.
+
+**What I updated in the README:**
+- **Project structure** — now reflects the real finalized repo (adds `conversation.md`, `scenario_list_CS23B1035.docx`; proper layout)
+- **New "Submission deliverables" table** mapping each file to problem-statement points 1–5
+- **Fixed the stale output example** — it showed `merged_06.docx,Anil Bose,INVALID`, which the keyword fix changed to `Investigation`; now uses a genuinely-`INVALID` row (`merged_18.docx,Gus Hall,INVALID`)
+
+Everything is ready to go to https://github.com/sifat-786/credit-parser. Run this in **your own terminal** (GCM will pop the GitHub sign-in to approve):
+
+```bash
+cd C:\TNQ\credit-parser; git push -u origin main
+```
+
+Two optional tweaks I can still do **before** you push (say the word and I'll do them, then you push):
+- **Trim** `HACKATHON_HANDOVER.md` + `PROJECT_CONTEXT.md` (internal planning notes, not required deliverables).
+- **Switch commit email** to `sifat-786@users.noreply.github.com` so your real Gmail isn't public.
+
+Want either of those, or are you good to push as-is?
+
+### 👤 User
+
+either ones to be done
+
+### 🤖 Claude
+
+Got it — I'll do **both**: trim the two planning docs and set the commit author to a GitHub noreply so your Gmail stays private. Since the existing commits carry your Gmail, the clean way (nothing's pushed yet) is to rebuild the repo as one fresh commit with the noreply identity and the trimmed file set.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 👤 User
+
+[Request interrupted by user]
+
+### 👤 User
+
+trim the two docs and push it in https://github.com/sifat-786/credit-parser
+
+### 🤖 Claude
+
+Understood — just trim the two docs and push (dropping the email change, since rebuilding the repo got blocked as destructive). The previous command was denied as a whole, so nothing changed — the repo is intact. Let me trim the docs with a normal commit (no history rewrite):
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+Docs trimmed and committed (`ce4dc78`). The repo is now exactly the deliverable set. Let me attempt the push:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+The trim is done and committed, but I **cannot push from here** — my sandbox disables interactive prompts, so Git Credential Manager can't show its GitHub sign-in, and there's no stored token to use non-interactively (and I won't handle a raw token). This is an environment limit, not a repo problem.
+
+Everything is staged and ready — **run this one line in your own terminal** and GCM will pop the GitHub sign-in to approve:
+
+```bash
+cd C:\TNQ\credit-parser; git push -u origin main
+```
+
+That publishes all 3 commits to https://github.com/sifat-786/credit-parser.
+
+**State of the repo (ready to push):**
+- Branch `main`, remote wired, tree clean, 3 commits
+- Top level is now exactly the deliverables: `README.md`, `conversation.md`, `run.sh`, `test_report.csv`, `output.csv`, `main.py`, `scenario_list_CS23B1035.docx`, `.gitignore`, `.gitattributes` + `src/`, `tests/`, `sample_manuscripts/`
+- The two planning docs are gone ✅
+
+One heads-up: since rebuilding the repo got blocked, the commits still carry your **real Gmail** as author — it'll be public once you push. If you want it private, run this in your terminal *before* the push (then push):
+
+```bash
+git config user.email "sifat-786@users.noreply.github.com"; git commit --amend --reset-author --no-edit; git rebase --exec "git commit --amend --reset-author --no-edit" --root
+```
+
+Otherwise, just run the push command above and you're submitted.
+
+### 👤 User
+
+give me the exact order and relavant terminal git command i can try it externally to push into my repo. ( satisfying the given question and deliverables format )
+
+### 🤖 Claude
+
+Your local repo at `C:\TNQ\credit-parser` is already fully prepared — committed, branch `main`, remote wired, and trimmed to exactly the required deliverables. So from your own terminal you really only need to **authenticate + push**. Here's the exact order.
+
+## Standard path — just push
+
+**1. Go to the project folder**
+```bash
+cd C:\TNQ\credit-parser
+```
+
+**2. Push (a GitHub sign-in window from Git Credential Manager will pop up — approve it)**
+```bash
+git push -u origin main
+```
+
+That publishes all 3 commits to `https://github.com/sifat-786/credit-parser`. Done.
+
+---
+
+## Optional — hide your real Gmail first (run *before* step 2)
+
+The commits currently use your real email as author (public once pushed). To replace it with a GitHub noreply across all commits:
+
+```bash
+git config user.email "sifat-786@users.noreply.github.com"
+```
+```bash
+git rebase --root --exec "git commit --amend --reset-author --no-edit"
+```
+…then run the push (step 2).
+
+---
+
+## If something's off
+
+**Auth didn't prompt / failed** — GCM should open a browser; if not, sign in once via:
+```bash
+git config --global credential.helper manager
+```
+then retry the push.
+
+**Push rejected as "non-fast-forward"** (means the GitHub repo isn't empty — e.g. you added a README on creation). Since it's your fresh submission repo, overwrite it with your local version:
+```bash
+git push -u origin main --force-with-lease
+```
+
+---
+
+## Verify the deliverables before/after (optional)
+
+**Tests pass + report regenerates:**
+```bash
+python tests\test_credit.py
+```
+**Confirm what's tracked (should be the deliverable set):**
+```bash
+git ls-files
+```
+
+## What's being pushed (satisfies the spec, points 1–5)
+
+| Spec requirement | File(s) |
+|---|---|
+| Code + automated tests | `main.py`, `src/`, `tests/test_credit.py` |
+| README (how to run tests) | `README.md` |
+| Exported Claude chat | `conversation.md` |
+| `run.sh` at top level | `run.sh` |
+| `test_report.csv` (`checks,input,expected,actual,result`) | `test_report.csv` |
+| Output CSV `file,author,credit_role` / `INVALID` | `output.csv` (sample) |
+| Scenario list (first 30 min) + inputs | `scenario_list_CS23B1035.docx`, `sample_manuscripts/` |
+
+Run the two standard commands and you're submitted. If the push works, tell me and I'll help you do a final verify of the live repo.
+
+### 👤 User
+
+<pasted_content id="9b04">
+PS C:\TNQ> cd C:\TNQ\credit-parser; git push -u origin main
+info: please complete authentication in your browser...
+Enumerating objects: 47, done.
+Counting objects: 100% (47/47), done.
+Delta compression using up to 20 threads
+Compressing objects: 100% (46/46), done.
+Writing objects: 100% (47/47), 240.51 KiB | 9.62 MiB/s, done.
+Total 47 (delta 21), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (21/21), done.
+To https://github.com/sifat-786/credit-parser.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+PS C:\TNQ\credit-parser>
+</pasted_content id="9b04">
+
+ 
+
+
+
+check again and try pushing now.
+
+### 🤖 Claude
+
+That worked — your push succeeded! The output shows `* [new branch] main -> main`, so all 47 objects (3 commits) are now live on GitHub. Let me verify the remote state and confirm everything landed.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+Confirmed live and complete:
+- **Local = remote**, both at `ce4dc78` (no ahead/behind).
+- `origin/main` has all **3 commits**.
+- `Everything up-to-date` — nothing left to push (and GCM cached your auth, so pushes now work from here too).
+
+Let me do a visual confirmation that the files actually render on GitHub:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__Claude_Browser__navigate*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__Claude_Browser__get_page_text*
+
+### 🤖 Claude
+
+**Your submission is live and verified on GitHub** ✅
+
+The repo at https://github.com/sifat-786/credit-parser is public, at commit `ce4dc78`, with the README rendering correctly and all deliverables present:
+
+| Required (points 1–5) | On GitHub |
+|---|---|
+| Code + tests | `main.py`, `src/`, `tests/` ✅ |
+| README (how to run tests) | `README.md` ✅ (renders, with deliverables map) |
+| Exported AI chat | `conversation.md` ✅ |
+| `run.sh` at top level | `run.sh` ✅ |
+| Output CSV + `test_report.csv` | `output.csv`, `test_report.csv` ✅ |
+| Scenario list + inputs | `scenario_list_CS23B1035.docx`, `sample_manuscripts/` ✅ |
+
+Confirmed: local and remote are in sync at `ce4dc78`, all 3 commits pushed, planning docs trimmed, and the README's stale `INVALID` example is fixed (now shows `merged_18.docx,Gus Hall,INVALID`). `git push` reports **"Everything up-to-date."**
+
+**One remaining heads-up:** since we did trim-and-push without the email rewrite, your real Gmail is now **public** in the commit history. If you want it gone, you can still fix it (auth is cached now, so this works from your terminal):
+```bash
+git rebase --root --exec "git -c user.email=sifat-786@users.noreply.github.com commit --amend --reset-author --no-edit"; git push --force-with-lease origin main
+```
+
+Otherwise — **you're fully submitted.** Nice work getting it across the line: the parser handles the tricky cases (conjunctions, citations, "all authors," parenthetical roles), tests are green (75/75), and the repo matches the spec exactly. Want me to do anything else, like a final read-through of the live `conversation.md` or `test_report.csv` on GitHub?
+
+### 👤 User
+
+did we do as per the question asked, the scenario part, the code implementation part, files deliverable part... go through all these and verify once again.
+
+### 🤖 Claude
+
+Good — let me do a fresh, thorough pass against the **official** problem statement (the two photos), with new evidence for each part. The one thing I haven't actually opened yet is the scenario document's contents, so I'll verify that now too.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Write*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+All three parts verified with fresh evidence. Here's the complete pass against the **official** problem statement.
+
+## 1. Scenario part ✅
+
+I opened `scenario_list_CS23B1035.docx` (hadn't before). It's a real, comprehensive scenario list and satisfies *"Scenario list, in the first 30 minutes… the cases they plan to check, in plain words."*
+- Candidate header (name, roll CS23B1035, Problem 2, "Submitted within: First 30 minutes")
+- "What the Tool Does" summary, then **5 areas** across **7 tables** of `# / Scenario / Expected Behaviour`: Live fetching, Reading .docx, Finding the section, Parsing names & roles (4a/4b/4c), CSV output
+- A "Summary of Key Decisions" (zero-rows vs INVALID, fetch-failure → INVALID, qualifier stripping, name cleaning)
+
+*Minor note:* the doc labels itself "Total scenarios identified: 40" (the earlier handover narrative said ~50). The spec sets no required count, so this is fine — just an internal label mismatch, not a compliance gap.
+
+## 2. Code implementation part ✅ (freshly re-run)
+
+| Spec requirement | Evidence (just now) |
+|---|---|
+| Dynamically fetch 14 roles, no hardcoding | Live fetch returned **14 roles** |
+| Reads every `.docx`, writes CSV | Pipeline processed all 20 → **57 rows** |
+| CSV header `file,author,credit_role` | Header confirmed exactly |
+| 14 roles **or** `INVALID` | 15 distinct values (14 roles + INVALID); INVALID = `merged_18 / Gus Hall` ("made the tea") ✓ |
+| Normalize (e.g. "wrote initial draft" → "Writing – original draft") | verified earlier + tests |
+| Clean author names / qualifiers | verified + tests |
+| Automated tests | **75/75 PASS** (re-run just now) |
+
+## 3. Files / deliverables part ✅
+
+Verified top-level on the **live GitHub repo** (and local == remote at `ce4dc78`):
+
+| "What every candidate submits" / points 1–5 | File | ✓ |
+|---|---|---|
+| Code | `main.py`, `src/` | ✅ |
+| Tests | `tests/test_credit.py` | ✅ |
+| README (how to run tests) | `README.md` | ✅ |
+| Exported Claude chat | `conversation.md` | ✅ |
+| `run.sh` at top level | `run.sh` | ✅ |
+| `test_report.csv` (cols `checks,input,expected,actual,result`) | `test_report.csv` | ✅ |
+| Output CSV format | `output.csv` (sample) | ✅ |
+| Scenario list + inputs | `scenario_list_CS23B1035.docx`, `sample_manuscripts/` | ✅ |
+
+## Verdict
+
+**Yes — the submission satisfies the question across all three parts.** Scenario list ✓, code implementation ✓ (live-verified + tests green), deliverable files ✓ (all present and pushed public).
+
+**One honest caveat I won't hide:** `run.sh` has only been **reviewed and LF-verified**, and the pipeline proven on **Windows** Python 3.12 — it has **not been executed on an actual Ubuntu/Node 22 machine** (your environment has no real WSL). Point 3 requires it to "work on a clean Ubuntu machine." It should (standard `python3` + `pip install`), but the only way to be 100% is to run `./run.sh sample_manuscripts output.csv` once on real Ubuntu before the debrief. That's the single thing left unverified; everything else is confirmed.
+
+### 👤 User
+
+lets also do the ubuntu/node 22 part and install the required dependencies as per the given question.
+
+### 🤖 Claude
+
+Quick clarification first: your tool is **Python** (your chosen language), so the spec's "Python 3.12 **or** Node 22" is satisfied by the Python 3.12 path — Node 22 isn't needed and `run.sh` uses `python3`. What's genuinely worth doing is executing `run.sh` on a **real Linux/Ubuntu** so the `pip install` + bash wrapper are proven. Let me see what's available here to do that cleanly.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+Here's the blocker, honestly: this machine has **no Linux available** — Docker not installed, no WSL distro, and installing WSL needs admin + a reboot (and is blocked from my sandbox). (Node v24 is here but irrelevant — your tool is Python, so the "Python 3.12 **or** Node 22" requirement is already met via Python; Node 22 is not needed.)
+
+So I can't spin up Ubuntu locally. Let me check whether I can run it for you in a **cloud Linux environment** instead (your repo is already on GitHub, which makes that clean).
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): ToolSearch*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_session__list_start_targets*
+
+### 🤖 Claude
+
+I've now checked every local option, and the honest situation is: **there is no Linux environment available on this machine to run `run.sh`** —
+- Docker: not installed
+- WSL: no distro installed (installing one needs admin + reboot, blocked from my sandbox)
+- Cloud environment: `available: false` (none configured for your account)
+- SSH hosts: none
+
+So I can't execute `run.sh` on Ubuntu from here no matter which route I try. (And to be clear: Node 22 is irrelevant — your tool is Python, so Python 3.12 already satisfies that requirement.)
+
+What I *can* do is set up a way for it to be tested on **genuine Ubuntu**, verifiably. The two reliable paths:
+
+### Option A (recommended) — I add a GitHub Actions CI workflow
+I create `.github/workflows/ci.yml` that, on every push, runs on **`ubuntu-latest` with Python 3.12**:
+- `./run.sh sample_manuscripts output.csv` (proves the bash wrapper + `pip install` of all deps + pipeline work on clean Ubuntu)
+- `python tests/test_credit.py` (runs the suite)
+
+You push once, GitHub runs it on real Ubuntu, and **I can then verify the green checkmark in the browser** — that's actual proof it works on Ubuntu, and graders see it too. (It adds one small config file, which is standard and directly serves point 3's "works on a clean Ubuntu machine.")
+
+### Option B — you run it yourself on real Ubuntu, nothing added to the repo
+**GitHub Codespaces** (easiest — real Ubuntu in your browser, nothing to install):
+1. On your repo → green **Code** button → **Codespaces** → **Create codespace on main**
+2. In its terminal:
+```bash
+chmod +x run.sh && ./run.sh sample_manuscripts output.csv
+```
+Or local **WSL** (admin PowerShell, one-time):
+```bash
+wsl --install -d Ubuntu-24.04
+```
+then reboot and run `./run.sh sample_manuscripts output.csv` inside Ubuntu.
+
+Either way, `run.sh` installs the dependencies itself, exactly as the question requires.
+
+Which do you want — **I set up the CI workflow** (then you push and I verify it on Ubuntu), or you'll run it via **Codespaces/WSL**?
+
+### 👤 User
+
+lets implement the ubuntu locally as well, as mentioned if there are no libraries, run.sh must install them.
+
+### 🤖 Claude
+
+Good — let's do this properly. Two real issues a clean-Ubuntu run would hit that your current `run.sh` doesn't handle: **(1)** a clean Ubuntu may not have `pip` installed, and **(2)** Ubuntu 24.04 blocks system `pip install` under PEP 668 ("externally-managed-environment"). So "run.sh must install the libraries" needs hardening first, then the local Ubuntu setup.
+
+Let me first harden `run.sh`, and I'll syntax-check it using Git's bundled bash (even though there's no WSL):
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Write*
+
+### 🤖 Claude
+
+Now syntax-check it with Git's bundled bash and confirm LF:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+LF confirmed (0 CR bytes). Git bash wasn't found at that guess — let me locate it precisely from the `git` install:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+No bash anywhere on this machine (no WSL, no Docker, and this Git install ships without bash either), so I can't syntax-check or run it locally — but I've reviewed the hardened script carefully and it's standard POSIX/bash, pure LF. Let me commit it:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+Hardened `run.sh` committed (`95a7291`; local is 1 commit ahead of GitHub). Now the local Ubuntu setup — this part needs **your** hands because installing WSL requires **admin rights + a reboot**, which my sandbox can't do.
+
+## Step 1 — Install Ubuntu (WSL) — run in an **Administrator** PowerShell
+```powershell
+wsl --install -d Ubuntu-24.04
+```
+This installs WSL2 + Ubuntu 24.04 (ships **Python 3.12**). **Reboot** when it asks, then Ubuntu opens and you set a username/password.
+
+## Step 2 — Run `run.sh` inside Ubuntu
+Open the **Ubuntu** terminal and run these:
+```bash
+cd /mnt/c/TNQ/credit-parser
+```
+```bash
+chmod +x run.sh && ./run.sh sample_manuscripts output_ubuntu.csv
+```
+This exercises exactly what the spec asks — on clean Ubuntu, `run.sh` installs the libraries itself. My hardening handles the two things a clean Ubuntu 24.04 trips on:
+- **No pip** → bootstraps via `ensurepip`, falling back to `sudo apt-get install python3-pip`
+- **PEP 668** ("externally-managed-environment") → retries with `--break-system-packages`, then `--user`
+
+## Step 3 — Verify the result (in Ubuntu)
+```bash
+head output_ubuntu.csv; echo "rows:"; tail -n +2 output_ubuntu.csv | wc -l
+```
+Expect header `file,author,credit_role` and **57** data rows. And the tests:
+```bash
+python3 tests/test_credit.py
+```
+
+## Step 4 — Push the hardened run.sh (auth is cached now)
+```bash
+cd C:\TNQ\credit-parser; git push origin main
+```
+
+---
+
+**After you've installed WSL (Step 1 done + rebooted)**, tell me — `wsl` will then be callable from my side too, and I can **run Step 2–3 for you and report the actual Ubuntu output**, so you get verified proof rather than just instructions. (The one caveat: if it needs `sudo apt` for pip, that may prompt for your password, which only works when *you* run it interactively.)
+
+One option to make this bulletproof without any local install: I can also add a tiny **GitHub Actions** workflow that runs `run.sh` on `ubuntu-latest` automatically on every push — then neither of us needs WSL and I can verify the green run in the browser. Want me to add that as a backstop, or go with the WSL route only?
+
+### 👤 User
+
+<pasted_content id="9b04">
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+sifat@SifatAhmed:~$ cd /mnt/c/TNQ/credit-parser
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$ chmod +x run.sh && ./run.sh sample_manuscripts output_ubuntu.csv
+[run.sh] Using interpreter: /usr/bin/python3
+Python 3.12.3
+[run.sh] pip not found; bootstrapping with ensurepip...
+[run.sh] Installing python3-pip via apt-get...
+[sudo] password for sifat:
+Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:2 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1146 kB]
+Hit:3 http://archive.ubuntu.com/ubuntu noble InRelease
+Get:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:5 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+Get:6 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+Get:7 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1223 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:9 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+Get:10 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.3 kB]
+Get:11 http://security.ubuntu.com/ubuntu noble-security/universe amd64 c-n-f Metadata [24.2 kB]
+Get:12 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+Get:13 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+Get:14 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+Get:15 http://security.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+Get:16 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [208 B]
+Get:17 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 c-n-f Metadata [468 B]
+Get:18 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [15.0 MB]
+Get:19 http://archive.ubuntu.com/ubuntu noble/universe Translation-en [5982 kB]
+Get:20 http://archive.ubuntu.com/ubuntu noble/universe amd64 Components [3871 kB]
+Get:21 http://archive.ubuntu.com/ubuntu noble/universe amd64 c-n-f Metadata [301 kB]
+Get:22 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [269 kB]
+Get:23 http://archive.ubuntu.com/ubuntu noble/multiverse Translation-en [118 kB]
+Get:24 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Components [35.0 kB]
+Get:25 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 c-n-f Metadata [8328 B]
+Get:26 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1408 kB]
+Get:27 http://archive.ubuntu.com/ubuntu noble-updates/main Translation-en [311 kB]
+Get:28 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+Get:29 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1708 kB]
+Get:30 http://archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [343 kB]
+Get:31 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+Get:32 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 c-n-f Metadata [34.9 kB]
+Get:33 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1813 kB]
+Get:34 http://archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [412 kB]
+Get:35 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+Get:36 http://archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.3 kB]
+Get:37 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+Get:38 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 c-n-f Metadata [656 B]
+Get:39 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [40.6 kB]
+Get:40 http://archive.ubuntu.com/ubuntu noble-backports/main Translation-en [9172 B]
+Get:41 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5764 B]
+Get:42 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 c-n-f Metadata [368 B]
+Get:43 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [31.0 kB]
+Get:44 http://archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [18.6 kB]
+Get:45 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+Get:46 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 c-n-f Metadata [1588 B]
+Get:47 http://archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [212 B]
+Get:48 http://archive.ubuntu.com/ubuntu noble-backports/restricted amd64 c-n-f Metadata [116 B]
+Get:49 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+Get:50 http://archive.ubuntu.com/ubuntu noble-backports/multiverse Translation-en [340 B]
+Get:51 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]
+Get:52 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 c-n-f Metadata [116 B]
+Fetched 37.9 MB in 13s (2829 kB/s)
+Reading package lists... Done
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  build-essential bzip2 cpp cpp-13 cpp-13-x86-64-linux-gnu cpp-x86-64-linux-gnu dpkg-dev fakeroot g++ g++-13
+  g++-13-x86-64-linux-gnu g++-x86-64-linux-gnu gcc gcc-13 gcc-13-base gcc-13-x86-64-linux-gnu gcc-x86-64-linux-gnu
+  javascript-common libalgorithm-diff-perl libalgorithm-diff-xs-perl libalgorithm-merge-perl libaom3 libasan8
+  libatomic1 libc-bin libc-dev-bin libc-devtools libc6 libc6-dev libcc1-0 libcrypt-dev libdpkg-perl libexpat1
+  libexpat1-dev libfakeroot libfile-fcntllock-perl libgcc-13-dev libgd3 libgomp1 libheif-plugin-aomdec
+  libheif-plugin-aomenc libheif1 libhwasan0 libisl23 libitm1 libjs-jquery libjs-sphinxdoc libjs-underscore liblsan0
+  libmpc3 libpython3-dev libpython3.12-dev libpython3.12-minimal libpython3.12-stdlib libpython3.12t64 libquadmath0
+  libstdc++-13-dev libtsan2 libubsan1 libxpm4 linux-libc-dev locales lto-disabled-list make manpages-dev python3-dev
+  python3-wheel python3.12 python3.12-dev python3.12-minimal rpcsvc-proto zlib1g zlib1g-dev
+Suggested packages:
+  bzip2-doc cpp-doc gcc-13-locales cpp-13-doc debian-keyring g++-multilib g++-13-multilib gcc-13-doc gcc-multilib
+  autoconf automake libtool flex bison gdb gcc-doc gcc-13-multilib gdb-x86-64-linux-gnu apache2 | lighttpd | httpd
+  glibc-doc libnss-nis libnss-nisplus bzr libgd-tools libheif-plugin-libde265 libheif-plugin-x265
+  libheif-plugin-ffmpegdec libheif-plugin-jpegdec libheif-plugin-jpegenc libheif-plugin-j2kdec libheif-plugin-j2kenc
+  libheif-plugin-rav1e libheif-plugin-svtenc libstdc++-13-doc make-doc python3.12-venv python3.12-doc binfmt-support
+The following NEW packages will be installed:
+  build-essential bzip2 cpp cpp-13 cpp-13-x86-64-linux-gnu cpp-x86-64-linux-gnu dpkg-dev fakeroot g++ g++-13
+  g++-13-x86-64-linux-gnu g++-x86-64-linux-gnu gcc gcc-13 gcc-13-base gcc-13-x86-64-linux-gnu gcc-x86-64-linux-gnu
+  javascript-common libalgorithm-diff-perl libalgorithm-diff-xs-perl libalgorithm-merge-perl libaom3 libasan8
+  libatomic1 libc-dev-bin libc-devtools libc6-dev libcc1-0 libcrypt-dev libdpkg-perl libexpat1-dev libfakeroot
+  libfile-fcntllock-perl libgcc-13-dev libgd3 libgomp1 libheif-plugin-aomdec libheif-plugin-aomenc libheif1 libhwasan0
+  libisl23 libitm1 libjs-jquery libjs-sphinxdoc libjs-underscore liblsan0 libmpc3 libpython3-dev libpython3.12-dev
+  libquadmath0 libstdc++-13-dev libtsan2 libubsan1 libxpm4 linux-libc-dev lto-disabled-list make manpages-dev
+  python3-dev python3-pip python3-wheel python3.12-dev rpcsvc-proto zlib1g-dev
+The following packages will be upgraded:
+  libc-bin libc6 libexpat1 libpython3.12-minimal libpython3.12-stdlib libpython3.12t64 locales python3.12
+  python3.12-minimal zlib1g
+10 upgraded, 64 newly installed, 0 to remove and 78 not upgraded.
+Need to get 96.7 MB of archives.
+After this operation, 283 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6 amd64 2.39-0ubuntu8.9 [3264 kB]
+Get:2 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-bin amd64 2.39-0ubuntu8.9 [682 kB]
+Get:3 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libexpat1 amd64 2.6.1-2ubuntu0.6 [98.9 kB]
+Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g amd64 1:1.3.dfsg-3.1ubuntu2.3 [63.2 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12t64 amd64 3.12.3-1ubuntu0.17 [2348 kB]
+Get:6 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12 amd64 3.12.3-1ubuntu0.17 [651 kB]
+Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-stdlib amd64 3.12.3-1ubuntu0.17 [2071 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-minimal amd64 3.12.3-1ubuntu0.17 [2335 kB]
+Get:9 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-minimal amd64 3.12.3-1ubuntu0.17 [839 kB]
+Get:10 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 locales all 2.39-0ubuntu8.9 [4232 kB]
+Get:11 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-dev-bin amd64 2.39-0ubuntu8.9 [20.4 kB]
+Get:12 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 linux-libc-dev amd64 6.8.0-147.147 [1595 kB]
+Get:13 http://archive.ubuntu.com/ubuntu noble/main amd64 libcrypt-dev amd64 1:4.4.36-4build1 [112 kB]
+Get:14 http://archive.ubuntu.com/ubuntu noble/main amd64 rpcsvc-proto amd64 1.4.2-0ubuntu7 [67.4 kB]
+Get:15 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6-dev amd64 2.39-0ubuntu8.9 [2126 kB]
+Get:16 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 gcc-13-base amd64 13.3.0-6ubuntu2~24.04.1 [51.6 kB]
+Get:17 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libisl23 amd64 0.26-3build1.1 [680 kB]
+Get:18 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libmpc3 amd64 1.3.1-1build1.1 [54.6 kB]
+Get:19 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 cpp-13-x86-64-linux-gnu amd64 13.3.0-6ubuntu2~24.04.1 [10.7 MB]
+Get:20 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 cpp-13 amd64 13.3.0-6ubuntu2~24.04.1 [1042 B]
+Get:21 http://archive.ubuntu.com/ubuntu noble/main amd64 cpp-x86-64-linux-gnu amd64 4:13.2.0-7ubuntu1 [5326 B]
+Get:22 http://archive.ubuntu.com/ubuntu noble/main amd64 cpp amd64 4:13.2.0-7ubuntu1 [22.4 kB]
+Get:23 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libcc1-0 amd64 14.2.0-4ubuntu2~24.04.1 [48.0 kB]
+Get:24 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgomp1 amd64 14.2.0-4ubuntu2~24.04.1 [148 kB]
+Get:25 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libitm1 amd64 14.2.0-4ubuntu2~24.04.1 [29.7 kB]
+Get:26 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libatomic1 amd64 14.2.0-4ubuntu2~24.04.1 [10.5 kB]
+Get:27 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libasan8 amd64 14.2.0-4ubuntu2~24.04.1 [3027 kB]
+Get:28 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 liblsan0 amd64 14.2.0-4ubuntu2~24.04.1 [1322 kB]
+Get:29 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libtsan2 amd64 14.2.0-4ubuntu2~24.04.1 [2772 kB]
+Get:30 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libubsan1 amd64 14.2.0-4ubuntu2~24.04.1 [1184 kB]
+Get:31 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libhwasan0 amd64 14.2.0-4ubuntu2~24.04.1 [1641 kB]
+Get:32 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libquadmath0 amd64 14.2.0-4ubuntu2~24.04.1 [153 kB]
+Get:33 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgcc-13-dev amd64 13.3.0-6ubuntu2~24.04.1 [2681 kB]
+Get:34 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 gcc-13-x86-64-linux-gnu amd64 13.3.0-6ubuntu2~24.04.1 [21.1 MB]
+Get:35 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 gcc-13 amd64 13.3.0-6ubuntu2~24.04.1 [494 kB]
+Get:36 http://archive.ubuntu.com/ubuntu noble/main amd64 gcc-x86-64-linux-gnu amd64 4:13.2.0-7ubuntu1 [1212 B]
+Get:37 http://archive.ubuntu.com/ubuntu noble/main amd64 gcc amd64 4:13.2.0-7ubuntu1 [5018 B]
+Get:38 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libstdc++-13-dev amd64 13.3.0-6ubuntu2~24.04.1 [2420 kB]
+Get:39 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 g++-13-x86-64-linux-gnu amd64 13.3.0-6ubuntu2~24.04.1 [12.2 MB]
+Get:40 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 g++-13 amd64 13.3.0-6ubuntu2~24.04.1 [16.0 kB]
+Get:41 http://archive.ubuntu.com/ubuntu noble/main amd64 g++-x86-64-linux-gnu amd64 4:13.2.0-7ubuntu1 [964 B]
+Get:42 http://archive.ubuntu.com/ubuntu noble/main amd64 g++ amd64 4:13.2.0-7ubuntu1 [1100 B]
+Get:43 http://archive.ubuntu.com/ubuntu noble/main amd64 make amd64 4.3-4.1build2 [180 kB]
+Get:44 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libdpkg-perl all 1.22.6ubuntu6.6 [268 kB]
+Get:45 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 bzip2 amd64 1.0.8-5.1ubuntu0.1 [34.6 kB]
+Get:46 http://archive.ubuntu.com/ubuntu noble/main amd64 lto-disabled-list all 47 [12.4 kB]
+Get:47 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 dpkg-dev all 1.22.6ubuntu6.6 [1074 kB]
+Get:48 http://archive.ubuntu.com/ubuntu noble/main amd64 build-essential amd64 12.10ubuntu1 [4928 B]
+Get:49 http://archive.ubuntu.com/ubuntu noble/main amd64 libfakeroot amd64 1.33-1 [32.4 kB]
+Get:50 http://archive.ubuntu.com/ubuntu noble/main amd64 fakeroot amd64 1.33-1 [67.2 kB]
+Get:51 http://archive.ubuntu.com/ubuntu noble/main amd64 javascript-common all 11+nmu1 [5936 B]
+Get:52 http://archive.ubuntu.com/ubuntu noble/main amd64 libalgorithm-diff-perl all 1.201-1 [41.8 kB]
+Get:53 http://archive.ubuntu.com/ubuntu noble/main amd64 libalgorithm-diff-xs-perl amd64 0.04-8build3 [11.2 kB]
+Get:54 http://archive.ubuntu.com/ubuntu noble/main amd64 libalgorithm-merge-perl all 0.08-5 [11.4 kB]
+Get:55 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libaom3 amd64 3.8.2-2ubuntu0.2 [1942 kB]
+Get:56 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libheif-plugin-aomdec amd64 1.17.6-1ubuntu4.9 [11.9 kB]
+Get:57 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libheif1 amd64 1.17.6-1ubuntu4.9 [277 kB]
+Get:58 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libxpm4 amd64 1:3.5.17-1ubuntu0.24.04.2 [36.7 kB]
+Get:59 http://archive.ubuntu.com/ubuntu noble/main amd64 libgd3 amd64 2.3.3-9ubuntu5 [128 kB]
+Get:60 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-devtools amd64 2.39-0ubuntu8.9 [29.3 kB]
+Get:61 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libexpat1-dev amd64 2.6.1-2ubuntu0.6 [147 kB]
+Get:62 http://archive.ubuntu.com/ubuntu noble/main amd64 libfile-fcntllock-perl amd64 0.22-4ubuntu5 [30.7 kB]
+Get:63 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libheif-plugin-aomenc amd64 1.17.6-1ubuntu4.9 [14.7 kB]
+Get:64 http://archive.ubuntu.com/ubuntu noble/main amd64 libjs-jquery all 3.6.1+dfsg+~3.5.14-1 [328 kB]
+Get:65 http://archive.ubuntu.com/ubuntu noble/main amd64 libjs-underscore all 1.13.4~dfsg+~1.11.4-3 [118 kB]
+Get:66 http://archive.ubuntu.com/ubuntu noble/main amd64 libjs-sphinxdoc all 7.2.6-6 [149 kB]
+Get:67 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g-dev amd64 1:1.3.dfsg-3.1ubuntu2.3 [894 kB]
+Get:68 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-dev amd64 3.12.3-1ubuntu0.17 [5684 kB]
+Get:69 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3-dev amd64 3.12.3-0ubuntu2.1 [10.3 kB]
+Get:70 http://archive.ubuntu.com/ubuntu noble/main amd64 manpages-dev all 6.7-2 [2013 kB]
+Get:71 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-dev amd64 3.12.3-1ubuntu0.17 [498 kB]
+Get:72 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-dev amd64 3.12.3-0ubuntu2.1 [26.7 kB]
+Get:73 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-wheel all 0.42.0-2 [53.1 kB]
+Get:74 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 python3-pip all 24.0+dfsg-1ubuntu1.3 [1320 kB]
+Fetched 96.7 MB in 10s (9393 kB/s)
+Extracting templates from packages: 100%
+Preconfiguring packages ...
+(Reading database ... 40785 files and directories currently installed.)
+Preparing to unpack .../libc6_2.39-0ubuntu8.9_amd64.deb ...
+Unpacking libc6:amd64 (2.39-0ubuntu8.9) over (2.39-0ubuntu8.8) ...
+Setting up libc6:amd64 (2.39-0ubuntu8.9) ...
+(Reading database ... 40785 files and directories currently installed.)
+Preparing to unpack .../libc-bin_2.39-0ubuntu8.9_amd64.deb ...
+Unpacking libc-bin (2.39-0ubuntu8.9) over (2.39-0ubuntu8.8) ...
+Setting up libc-bin (2.39-0ubuntu8.9) ...
+(Reading database ... 40785 files and directories currently installed.)
+Preparing to unpack .../libexpat1_2.6.1-2ubuntu0.6_amd64.deb ...
+Unpacking libexpat1:amd64 (2.6.1-2ubuntu0.6) over (2.6.1-2ubuntu0.4) ...
+Preparing to unpack .../zlib1g_1%3a1.3.dfsg-3.1ubuntu2.3_amd64.deb ...
+Unpacking zlib1g:amd64 (1:1.3.dfsg-3.1ubuntu2.3) over (1:1.3.dfsg-3.1ubuntu2.2) ...
+Setting up zlib1g:amd64 (1:1.3.dfsg-3.1ubuntu2.3) ...
+(Reading database ... 40785 files and directories currently installed.)
+Preparing to unpack .../00-libpython3.12t64_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking libpython3.12t64:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.16) ...
+Preparing to unpack .../01-python3.12_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking python3.12 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.16) ...
+Preparing to unpack .../02-libpython3.12-stdlib_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.16) ...
+Preparing to unpack .../03-python3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking python3.12-minimal (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.16) ...
+Preparing to unpack .../04-libpython3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.16) ...
+Preparing to unpack .../05-locales_2.39-0ubuntu8.9_all.deb ...
+Unpacking locales (2.39-0ubuntu8.9) over (2.39-0ubuntu8.8) ...
+Selecting previously unselected package libc-dev-bin.
+Preparing to unpack .../06-libc-dev-bin_2.39-0ubuntu8.9_amd64.deb ...
+Unpacking libc-dev-bin (2.39-0ubuntu8.9) ...
+Selecting previously unselected package linux-libc-dev:amd64.
+Preparing to unpack .../07-linux-libc-dev_6.8.0-147.147_amd64.deb ...
+Unpacking linux-libc-dev:amd64 (6.8.0-147.147) ...
+Selecting previously unselected package libcrypt-dev:amd64.
+Preparing to unpack .../08-libcrypt-dev_1%3a4.4.36-4build1_amd64.deb ...
+Unpacking libcrypt-dev:amd64 (1:4.4.36-4build1) ...
+Selecting previously unselected package rpcsvc-proto.
+Preparing to unpack .../09-rpcsvc-proto_1.4.2-0ubuntu7_amd64.deb ...
+Unpacking rpcsvc-proto (1.4.2-0ubuntu7) ...
+Selecting previously unselected package libc6-dev:amd64.
+Preparing to unpack .../10-libc6-dev_2.39-0ubuntu8.9_amd64.deb ...
+Unpacking libc6-dev:amd64 (2.39-0ubuntu8.9) ...
+Selecting previously unselected package gcc-13-base:amd64.
+Preparing to unpack .../11-gcc-13-base_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking gcc-13-base:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package libisl23:amd64.
+Preparing to unpack .../12-libisl23_0.26-3build1.1_amd64.deb ...
+Unpacking libisl23:amd64 (0.26-3build1.1) ...
+Selecting previously unselected package libmpc3:amd64.
+Preparing to unpack .../13-libmpc3_1.3.1-1build1.1_amd64.deb ...
+Unpacking libmpc3:amd64 (1.3.1-1build1.1) ...
+Selecting previously unselected package cpp-13-x86-64-linux-gnu.
+Preparing to unpack .../14-cpp-13-x86-64-linux-gnu_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking cpp-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package cpp-13.
+Preparing to unpack .../15-cpp-13_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking cpp-13 (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package cpp-x86-64-linux-gnu.
+Preparing to unpack .../16-cpp-x86-64-linux-gnu_4%3a13.2.0-7ubuntu1_amd64.deb ...
+Unpacking cpp-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+Selecting previously unselected package cpp.
+Preparing to unpack .../17-cpp_4%3a13.2.0-7ubuntu1_amd64.deb ...
+Unpacking cpp (4:13.2.0-7ubuntu1) ...
+Selecting previously unselected package libcc1-0:amd64.
+Preparing to unpack .../18-libcc1-0_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libcc1-0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libgomp1:amd64.
+Preparing to unpack .../19-libgomp1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libgomp1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libitm1:amd64.
+Preparing to unpack .../20-libitm1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libitm1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libatomic1:amd64.
+Preparing to unpack .../21-libatomic1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libatomic1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libasan8:amd64.
+Preparing to unpack .../22-libasan8_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libasan8:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package liblsan0:amd64.
+Preparing to unpack .../23-liblsan0_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking liblsan0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libtsan2:amd64.
+Preparing to unpack .../24-libtsan2_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libtsan2:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libubsan1:amd64.
+Preparing to unpack .../25-libubsan1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libubsan1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libhwasan0:amd64.
+Preparing to unpack .../26-libhwasan0_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libhwasan0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libquadmath0:amd64.
+Preparing to unpack .../27-libquadmath0_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+Unpacking libquadmath0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Selecting previously unselected package libgcc-13-dev:amd64.
+Preparing to unpack .../28-libgcc-13-dev_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking libgcc-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package gcc-13-x86-64-linux-gnu.
+Preparing to unpack .../29-gcc-13-x86-64-linux-gnu_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking gcc-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package gcc-13.
+Preparing to unpack .../30-gcc-13_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking gcc-13 (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package gcc-x86-64-linux-gnu.
+Preparing to unpack .../31-gcc-x86-64-linux-gnu_4%3a13.2.0-7ubuntu1_amd64.deb ...
+Unpacking gcc-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+Selecting previously unselected package gcc.
+Preparing to unpack .../32-gcc_4%3a13.2.0-7ubuntu1_amd64.deb ...
+Unpacking gcc (4:13.2.0-7ubuntu1) ...
+Selecting previously unselected package libstdc++-13-dev:amd64.
+Preparing to unpack .../33-libstdc++-13-dev_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking libstdc++-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package g++-13-x86-64-linux-gnu.
+Preparing to unpack .../34-g++-13-x86-64-linux-gnu_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking g++-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package g++-13.
+Preparing to unpack .../35-g++-13_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+Unpacking g++-13 (13.3.0-6ubuntu2~24.04.1) ...
+Selecting previously unselected package g++-x86-64-linux-gnu.
+Preparing to unpack .../36-g++-x86-64-linux-gnu_4%3a13.2.0-7ubuntu1_amd64.deb ...
+Unpacking g++-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+Selecting previously unselected package g++.
+Preparing to unpack .../37-g++_4%3a13.2.0-7ubuntu1_amd64.deb ...
+Unpacking g++ (4:13.2.0-7ubuntu1) ...
+Selecting previously unselected package make.
+Preparing to unpack .../38-make_4.3-4.1build2_amd64.deb ...
+Unpacking make (4.3-4.1build2) ...
+Selecting previously unselected package libdpkg-perl.
+Preparing to unpack .../39-libdpkg-perl_1.22.6ubuntu6.6_all.deb ...
+Unpacking libdpkg-perl (1.22.6ubuntu6.6) ...
+Selecting previously unselected package bzip2.
+Preparing to unpack .../40-bzip2_1.0.8-5.1ubuntu0.1_amd64.deb ...
+Unpacking bzip2 (1.0.8-5.1ubuntu0.1) ...
+Selecting previously unselected package lto-disabled-list.
+Preparing to unpack .../41-lto-disabled-list_47_all.deb ...
+Unpacking lto-disabled-list (47) ...
+Selecting previously unselected package dpkg-dev.
+Preparing to unpack .../42-dpkg-dev_1.22.6ubuntu6.6_all.deb ...
+Unpacking dpkg-dev (1.22.6ubuntu6.6) ...
+Selecting previously unselected package build-essential.
+Preparing to unpack .../43-build-essential_12.10ubuntu1_amd64.deb ...
+Unpacking build-essential (12.10ubuntu1) ...
+Selecting previously unselected package libfakeroot:amd64.
+Preparing to unpack .../44-libfakeroot_1.33-1_amd64.deb ...
+Unpacking libfakeroot:amd64 (1.33-1) ...
+Selecting previously unselected package fakeroot.
+Preparing to unpack .../45-fakeroot_1.33-1_amd64.deb ...
+Unpacking fakeroot (1.33-1) ...
+Selecting previously unselected package javascript-common.
+Preparing to unpack .../46-javascript-common_11+nmu1_all.deb ...
+Unpacking javascript-common (11+nmu1) ...
+Selecting previously unselected package libalgorithm-diff-perl.
+Preparing to unpack .../47-libalgorithm-diff-perl_1.201-1_all.deb ...
+Unpacking libalgorithm-diff-perl (1.201-1) ...
+Selecting previously unselected package libalgorithm-diff-xs-perl:amd64.
+Preparing to unpack .../48-libalgorithm-diff-xs-perl_0.04-8build3_amd64.deb ...
+Unpacking libalgorithm-diff-xs-perl:amd64 (0.04-8build3) ...
+Selecting previously unselected package libalgorithm-merge-perl.
+Preparing to unpack .../49-libalgorithm-merge-perl_0.08-5_all.deb ...
+Unpacking libalgorithm-merge-perl (0.08-5) ...
+Selecting previously unselected package libaom3:amd64.
+Preparing to unpack .../50-libaom3_3.8.2-2ubuntu0.2_amd64.deb ...
+Unpacking libaom3:amd64 (3.8.2-2ubuntu0.2) ...
+Selecting previously unselected package libheif-plugin-aomdec:amd64.
+Preparing to unpack .../51-libheif-plugin-aomdec_1.17.6-1ubuntu4.9_amd64.deb ...
+Unpacking libheif-plugin-aomdec:amd64 (1.17.6-1ubuntu4.9) ...
+Selecting previously unselected package libheif1:amd64.
+Preparing to unpack .../52-libheif1_1.17.6-1ubuntu4.9_amd64.deb ...
+Unpacking libheif1:amd64 (1.17.6-1ubuntu4.9) ...
+Selecting previously unselected package libxpm4:amd64.
+Preparing to unpack .../53-libxpm4_1%3a3.5.17-1ubuntu0.24.04.2_amd64.deb ...
+Unpacking libxpm4:amd64 (1:3.5.17-1ubuntu0.24.04.2) ...
+Selecting previously unselected package libgd3:amd64.
+Preparing to unpack .../54-libgd3_2.3.3-9ubuntu5_amd64.deb ...
+Unpacking libgd3:amd64 (2.3.3-9ubuntu5) ...
+Selecting previously unselected package libc-devtools.
+Preparing to unpack .../55-libc-devtools_2.39-0ubuntu8.9_amd64.deb ...
+Unpacking libc-devtools (2.39-0ubuntu8.9) ...
+Selecting previously unselected package libexpat1-dev:amd64.
+Preparing to unpack .../56-libexpat1-dev_2.6.1-2ubuntu0.6_amd64.deb ...
+Unpacking libexpat1-dev:amd64 (2.6.1-2ubuntu0.6) ...
+Selecting previously unselected package libfile-fcntllock-perl.
+Preparing to unpack .../57-libfile-fcntllock-perl_0.22-4ubuntu5_amd64.deb ...
+Unpacking libfile-fcntllock-perl (0.22-4ubuntu5) ...
+Selecting previously unselected package libheif-plugin-aomenc:amd64.
+Preparing to unpack .../58-libheif-plugin-aomenc_1.17.6-1ubuntu4.9_amd64.deb ...
+Unpacking libheif-plugin-aomenc:amd64 (1.17.6-1ubuntu4.9) ...
+Selecting previously unselected package libjs-jquery.
+Preparing to unpack .../59-libjs-jquery_3.6.1+dfsg+~3.5.14-1_all.deb ...
+Unpacking libjs-jquery (3.6.1+dfsg+~3.5.14-1) ...
+Selecting previously unselected package libjs-underscore.
+Preparing to unpack .../60-libjs-underscore_1.13.4~dfsg+~1.11.4-3_all.deb ...
+Unpacking libjs-underscore (1.13.4~dfsg+~1.11.4-3) ...
+Selecting previously unselected package libjs-sphinxdoc.
+Preparing to unpack .../61-libjs-sphinxdoc_7.2.6-6_all.deb ...
+Unpacking libjs-sphinxdoc (7.2.6-6) ...
+Selecting previously unselected package zlib1g-dev:amd64.
+Preparing to unpack .../62-zlib1g-dev_1%3a1.3.dfsg-3.1ubuntu2.3_amd64.deb ...
+Unpacking zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.3) ...
+Selecting previously unselected package libpython3.12-dev:amd64.
+Preparing to unpack .../63-libpython3.12-dev_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking libpython3.12-dev:amd64 (3.12.3-1ubuntu0.17) ...
+Selecting previously unselected package libpython3-dev:amd64.
+Preparing to unpack .../64-libpython3-dev_3.12.3-0ubuntu2.1_amd64.deb ...
+Unpacking libpython3-dev:amd64 (3.12.3-0ubuntu2.1) ...
+Selecting previously unselected package manpages-dev.
+Preparing to unpack .../65-manpages-dev_6.7-2_all.deb ...
+Unpacking manpages-dev (6.7-2) ...
+Selecting previously unselected package python3.12-dev.
+Preparing to unpack .../66-python3.12-dev_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking python3.12-dev (3.12.3-1ubuntu0.17) ...
+Selecting previously unselected package python3-dev.
+Preparing to unpack .../67-python3-dev_3.12.3-0ubuntu2.1_amd64.deb ...
+Unpacking python3-dev (3.12.3-0ubuntu2.1) ...
+Selecting previously unselected package python3-wheel.
+Preparing to unpack .../68-python3-wheel_0.42.0-2_all.deb ...
+Unpacking python3-wheel (0.42.0-2) ...
+Selecting previously unselected package python3-pip.
+Preparing to unpack .../69-python3-pip_24.0+dfsg-1ubuntu1.3_all.deb ...
+Unpacking python3-pip (24.0+dfsg-1ubuntu1.3) ...
+Setting up libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+Setting up javascript-common (11+nmu1) ...
+Setting up libaom3:amd64 (3.8.2-2ubuntu0.2) ...
+Setting up manpages-dev (6.7-2) ...
+Setting up lto-disabled-list (47) ...
+Setting up libxpm4:amd64 (1:3.5.17-1ubuntu0.24.04.2) ...
+Setting up libfile-fcntllock-perl (0.22-4ubuntu5) ...
+Setting up libalgorithm-diff-perl (1.201-1) ...
+Setting up libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+Setting up linux-libc-dev:amd64 (6.8.0-147.147) ...
+Setting up libgomp1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up bzip2 (1.0.8-5.1ubuntu0.1) ...
+Setting up locales (2.39-0ubuntu8.9) ...
+Generating locales (this might take a while)...
+Generation complete.
+Setting up python3-wheel (0.42.0-2) ...
+Setting up libfakeroot:amd64 (1.33-1) ...
+Setting up fakeroot (1.33-1) ...
+update-alternatives: using /usr/bin/fakeroot-sysv to provide /usr/bin/fakeroot (fakeroot) in auto mode
+Setting up rpcsvc-proto (1.4.2-0ubuntu7) ...
+Setting up gcc-13-base:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+Setting up make (4.3-4.1build2) ...
+Setting up libquadmath0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up libmpc3:amd64 (1.3.1-1build1.1) ...
+Setting up libatomic1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up python3-pip (24.0+dfsg-1ubuntu1.3) ...
+Setting up libdpkg-perl (1.22.6ubuntu6.6) ...
+Setting up libubsan1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up libhwasan0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up libcrypt-dev:amd64 (1:4.4.36-4build1) ...
+Setting up libasan8:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up libtsan2:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up libjs-jquery (3.6.1+dfsg+~3.5.14-1) ...
+Setting up libisl23:amd64 (0.26-3build1.1) ...
+Setting up libc-dev-bin (2.39-0ubuntu8.9) ...
+Setting up libalgorithm-diff-xs-perl:amd64 (0.04-8build3) ...
+Setting up libcc1-0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up liblsan0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up libitm1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+Setting up libjs-underscore (1.13.4~dfsg+~1.11.4-3) ...
+Setting up libalgorithm-merge-perl (0.08-5) ...
+Setting up python3.12-minimal (3.12.3-1ubuntu0.17) ...
+Setting up libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+Setting up cpp-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+Setting up python3.12 (3.12.3-1ubuntu0.17) ...
+Setting up dpkg-dev (1.22.6ubuntu6.6) ...
+Setting up libpython3.12t64:amd64 (3.12.3-1ubuntu0.17) ...
+Setting up libjs-sphinxdoc (7.2.6-6) ...
+Setting up libgcc-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+Setting up libc6-dev:amd64 (2.39-0ubuntu8.9) ...
+Setting up libstdc++-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+Setting up cpp-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+Setting up cpp-13 (13.3.0-6ubuntu2~24.04.1) ...
+Setting up gcc-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+Setting up libexpat1-dev:amd64 (2.6.1-2ubuntu0.6) ...
+Setting up gcc-13 (13.3.0-6ubuntu2~24.04.1) ...
+Setting up zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.3) ...
+Setting up cpp (4:13.2.0-7ubuntu1) ...
+Setting up g++-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+Setting up gcc-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+Setting up libpython3.12-dev:amd64 (3.12.3-1ubuntu0.17) ...
+Setting up gcc (4:13.2.0-7ubuntu1) ...
+Setting up python3.12-dev (3.12.3-1ubuntu0.17) ...
+Setting up g++-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+Setting up g++-13 (13.3.0-6ubuntu2~24.04.1) ...
+Setting up libpython3-dev:amd64 (3.12.3-0ubuntu2.1) ...
+Setting up python3-dev (3.12.3-0ubuntu2.1) ...
+Setting up g++ (4:13.2.0-7ubuntu1) ...
+update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+Setting up build-essential (12.10ubuntu1) ...
+Setting up libheif1:amd64 (1.17.6-1ubuntu4.9) ...
+Setting up libgd3:amd64 (2.3.3-9ubuntu5) ...
+Setting up libc-devtools (2.39-0ubuntu8.9) ...
+Setting up libheif-plugin-aomdec:amd64 (1.17.6-1ubuntu4.9) ...
+Setting up libheif-plugin-aomenc:amd64 (1.17.6-1ubuntu4.9) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+Processing triggers for systemd (255.4-1ubuntu8.17) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+[run.sh] Installing dependencies: requests beautifulsoup4 python-docx rapidfuzz
+error: externally-managed-environment
+
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install
+    python3-xyz, where xyz is the package you are trying to
+    install.
+
+    If you wish to install a non-Debian-packaged Python package,
+    create a virtual environment using python3 -m venv path/to/venv.
+    Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make
+    sure you have python3-full installed.
+
+    If you wish to install a non-Debian packaged Python application,
+    it may be easiest to use pipx install xyz, which will manage a
+    virtual environment for you. Make sure you have pipx installed.
+
+    See /usr/share/doc/python3.12/README.venv for more information.
+
+note: If you believe this is a mistake, please contact your Python installation or OS distribution provider. You can override this, at the risk of breaking your Python installation or OS, by passing --break-system-packages.
+hint: See PEP 668 for the detailed specification.
+  WARNING: The script normalizer is installed in '/home/sifat/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+[run.sh] Running parser: sample_manuscripts -> output_ubuntu.csv
+[fetcher] Successfully fetched 14 CRediT roles.
+[main] merged_01.docx: 4 rows.
+[main] merged_02.docx: 5 rows.
+[main] merged_03.docx: no contributions section found.
+[main] merged_04.docx: 5 rows.
+[main] merged_05.docx: 4 rows.
+[main] merged_06.docx: 3 rows.
+[main] merged_07.docx: 5 rows.
+[main] merged_08.docx: no contributions section found.
+[main] merged_09.docx: no contributions section found.
+[main] merged_10.docx: 4 rows.
+[main] merged_11.docx: no contributions section found.
+[reader] Could not open sample_manuscripts/merged_12.docx: Package not found at 'sample_manuscripts/merged_12.docx'
+[main] merged_12.docx: no contributions section found.
+[main] merged_13.docx: no contributions section found.
+[main] merged_14.docx: 2 rows.
+[main] merged_15.docx: 3 rows.
+[main] merged_16.docx: 3 rows.
+[main] merged_17.docx: 6 rows.
+[main] merged_18.docx: 2 rows.
+[main] merged_19.docx: 4 rows.
+[main] merged_20.docx: 7 rows.
+[main] Done — wrote 57 rows to output_ubuntu.csv
+[run.sh] Done. Wrote output_ubuntu.csv
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$ head output_ubuntu.csv; echo "rows:"; tail -n +2 output_ubuntu.csv | wc -l
+file,author,credit_role
+merged_01.docx,J.D.,Conceptualization
+merged_01.docx,J.D.,Writing – original draft
+merged_01.docx,A.B.,Methodology
+merged_01.docx,A.B.,Software
+merged_02.docx,Jane Doe,Conceptualization
+merged_02.docx,Jane Doe,Funding acquisition
+merged_02.docx,Raj Patel,Investigation
+merged_02.docx,Raj Patel,Data curation
+merged_02.docx,Raj Patel,Visualization
+rows:
+57
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$ python3 tests/test_credit.py
+[fetcher] Network error fetching https://credit.niso.org/: dns
+[fetcher] Network error fetching https://credit.niso.org/: 500
+[fetcher] Network error fetching https://credit.niso.org/: timeout
+[fetcher] Warning: could not reliably parse roles from page (found 0 candidates). Will return None.
+[reader] Could not open /mnt/c/TNQ/credit-parser/sample_manuscripts/merged_12.docx: Package not found at '/mnt/c/TNQ/credit-parser/sample_manuscripts/merged_12.docx'
+[reader] Could not open /mnt/c/TNQ/credit-parser/sample_manuscripts/NOPE.docx: Package not found at '/mnt/c/TNQ/credit-parser/sample_manuscripts/NOPE.docx'
+[main] merged_01.docx: 4 rows.
+[main] merged_02.docx: 5 rows.
+[main] merged_03.docx: no contributions section found.
+[main] merged_04.docx: 5 rows.
+[main] merged_05.docx: 4 rows.
+[main] merged_06.docx: 3 rows.
+[main] merged_07.docx: 5 rows.
+[main] merged_08.docx: no contributions section found.
+[main] merged_09.docx: no contributions section found.
+[main] merged_10.docx: 4 rows.
+[main] merged_11.docx: no contributions section found.
+[reader] Could not open /mnt/c/TNQ/credit-parser/sample_manuscripts/merged_12.docx: Package not found at '/mnt/c/TNQ/credit-parser/sample_manuscripts/merged_12.docx'
+[main] merged_12.docx: no contributions section found.
+[main] merged_13.docx: no contributions section found.
+[main] merged_14.docx: 2 rows.
+[main] merged_15.docx: 3 rows.
+[main] merged_16.docx: 3 rows.
+[main] merged_17.docx: 6 rows.
+[main] merged_18.docx: 2 rows.
+[main] merged_19.docx: 4 rows.
+[main] merged_20.docx: 7 rows.
+[main] Done — wrote 57 rows to /tmp/pipeline_test.csv
+[main] merged_01.docx: 4 rows.
+[main] merged_02.docx: 5 rows.
+[main] merged_03.docx: no contributions section found.
+[main] merged_04.docx: 5 rows.
+[main] merged_05.docx: 4 rows.
+[main] merged_06.docx: 3 rows.
+[main] merged_07.docx: 5 rows.
+[main] merged_08.docx: no contributions section found.
+[main] merged_09.docx: no contributions section found.
+[main] merged_10.docx: 4 rows.
+[main] merged_11.docx: no contributions section found.
+[reader] Could not open /mnt/c/TNQ/credit-parser/sample_manuscripts/merged_12.docx: Package not found at '/mnt/c/TNQ/credit-parser/sample_manuscripts/merged_12.docx'
+[main] merged_12.docx: no contributions section found.
+[main] merged_13.docx: no contributions section found.
+[main] merged_14.docx: 2 rows.
+[main] merged_15.docx: 3 rows.
+[main] merged_16.docx: 3 rows.
+[main] merged_17.docx: 6 rows.
+[main] merged_18.docx: 2 rows.
+[main] merged_19.docx: 4 rows.
+[main] merged_20.docx: 7 rows.
+[main] Done — wrote 57 rows to /tmp/credit_nested_2521/deep/out.csv
+
+============================================================
+TOTAL: 75   PASS: 75   FAIL: 0
+Report written to: /mnt/c/TNQ/credit-parser/test_report.csv
+============================================================
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$ cd C:\TNQ\credit-parser; git push origin main
+-bash: cd: C:TNQcredit-parser: No such file or directory
+Username for 'https://github.com': sifat-786
+Password for 'https://sifat-786@github.com':
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/sifat-786/credit-parser.git/'
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$ cd C:\TNQ\credit-parser; git push origin main
+-bash: cd: C:TNQcredit-parser: No such file or directory
+Username for 'https://github.com': sifat-786
+Password for 'https://sifat-786@github.com':
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/sifat-786/credit-parser.git/'
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$ cd C:\TNQ\credit-parser; git push origin main
+-bash: cd: C:TNQcredit-parser: No such file or directory
+Username for 'https://github.com': sifat-786
+Password for 'https://sifat-786@github.com':
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/sifat-786/credit-parser.git/'
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$ cd C:\TNQ\credit-parser; git push origin main
+-bash: cd: C:TNQcredit-parser: No such file or directory
+Username for 'https://github.com': sifat-786
+Password for 'https://sifat-786@github.com':
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/sifat-786/credit-parser.git/'
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$ cd C:\TNQ\credit-parser; git push origin main
+-bash: cd: C:TNQcredit-parser: No such file or directory
+Username for 'https://github.com': sifat-786
+Password for 'https://sifat-786@github.com':
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/sifat-786/credit-parser.git/'
+sifat@SifatAhmed:/mnt/c/TNQ/credit-parser$
+</pasted_content id="9b04">
+
+provide the suitable help
+
+### 🤖 Claude
+
+**Excellent news — the Ubuntu test passed completely.** 🎉 Your `run.sh` worked on genuine **Ubuntu 24.04 + Python 3.12.3**:
+- It **installed the dependencies itself**: bootstrapped `pip` via `apt`, then handled the PEP 668 block with the `--break-system-packages` fallback (that's the `~/.local/bin` install you saw)
+- Produced **57 rows**, correct header, en-dash preserved, live fetch of 14 roles ✅
+- `python3 tests/test_credit.py` → **75/75 PASS** ✅
+
+So spec point 3 ("works on a clean Ubuntu machine… run.sh must install the libraries") is now **verified on real Ubuntu**.
+
+The **only** failure was the `git push`, for two reasons:
+1. `cd C:\TNQ\credit-parser` is a Windows path — in WSL it's `/mnt/c/...` (you were already in the right folder, so the `cd` was unneeded).
+2. GitHub **no longer accepts your account password** for git — you'd need a Personal Access Token, and WSL's git had no credential helper.
+
+But you don't need to fight WSL auth at all — **the Windows side already has your cached GitHub credential** (from your first successful push), and the hardened `run.sh` is committed there. Let me just push it for you from here:
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): PowerShell*
+
+### 🤖 Claude
+
+The push succeeded — that `git :` line is just PowerShell flagging git's normal progress text; the actual result is **`ce4dc78..95a7291 main -> main`**, and the remote `main` is now at `95a7291` (your hardened `run.sh`). ✅
+
+## You're done — and now verified on real Ubuntu
+
+| Check | Result |
+|---|---|
+| `run.sh` on clean **Ubuntu 24.04 / Python 3.12.3** | ✅ installed deps itself (apt pip bootstrap + PEP 668 fallback) and ran |
+| Output | ✅ 57 rows, header `file,author,credit_role`, en-dash intact |
+| Tests on Ubuntu | ✅ **75/75 PASS** |
+| Hardened `run.sh` pushed to GitHub | ✅ remote `main` = `95a7291` |
+
+That closes the last open item — point 3 is now **proven on genuine Ubuntu**, not just reviewed.
+
+## Minor local cleanup (optional, doesn't affect the submission)
+
+The WSL run left two harmless artifacts in your working tree — **not pushed**:
+- `output_ubuntu.csv` (untracked test output)
+- `test_report.csv` showing as modified (WSL re-generated it; same content, just re-written)
+
+You can tidy them if you like (in **Windows PowerShell**, from the repo):
+```powershell
+git checkout -- test_report.csv; Remove-Item output_ubuntu.csv
+```
+
+## For future pushes from WSL (so you don't hit the password error again)
+
+GitHub killed password auth. Point WSL's git at your **Windows** credential manager so it reuses the token you already authorized:
+```bash
+git config --global credential.helper "/mnt/c/Users/sifat/AppData/Local/Programs/Git/ucrt64/bin/git-credential-manager.exe"
+```
+Then `git push` from WSL will work without prompting. (And remember: in WSL the repo path is `/mnt/c/TNQ/credit-parser`, not `C:\...`.)
+
+Everything required by the problem statement is implemented, tested, verified on Ubuntu, and live at https://github.com/sifat-786/credit-parser. Congratulations — this is a complete, solid submission. Anything else you'd like to polish before the debrief?
+
+### 👤 User
+
+now update the conversation and make changes in repo as well. ( check read me file once again and tell me if it suggestable to keep the part " without run.sh" or should we keep it?? do the needful.
+
+### 🤖 Claude
+
+Good call to question that section. Let me give you my recommendation, then do everything.
+
+## README: the "Running without run.sh" section — **fix it, don't keep it as-is**
+
+Right now it says:
+```
+python3 -m pip install requests beautifulsoup4 python-docx rapidfuzz
+```
+Your own Ubuntu test just proved that **this exact command fails on clean Ubuntu 24.04** (the PEP 668 "externally-managed-environment" error) — that's the whole reason `run.sh` needed the `--break-system-packages`/`--user` fallbacks. So keeping it as written would ship **broken, misleading instructions**.
+
+**Recommendation:** keep a manual option (it's genuinely useful), but make it **correct** by using a virtual environment — which works on both Windows and clean Ubuntu and sidesteps PEP 668 cleanly. I'll do that now, plus re-export and update `conversation.md`.
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_turn__update_plan*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): Edit*
+
+### 🤖 Claude
+
+> 🔧 *Tool call(s): mcp__ccd_session_mgmt__export_transcript*
+

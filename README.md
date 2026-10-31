@@ -29,11 +29,17 @@ access. It self-installs all dependencies (`requests`, `beautifulsoup4`,
 > list is **never hardcoded**. If the fetch fails, the tool still runs and emits
 > `INVALID` for every role rather than crashing.
 
-### Running without `run.sh`
+### Running without `run.sh` (manual)
+
+Use a virtual environment — this also avoids Ubuntu's PEP 668
+"externally-managed-environment" restriction that blocks a plain system-wide
+`pip install`:
 
 ```bash
-python3 -m pip install requests beautifulsoup4 python-docx rapidfuzz
-python3 main.py <input_folder> <output.csv>
+python3 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\Activate.ps1
+pip install requests beautifulsoup4 python-docx rapidfuzz
+python main.py <input_folder> <output.csv>
 ```
 
 ---
